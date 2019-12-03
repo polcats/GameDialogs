@@ -4,18 +4,16 @@ class InputHandler
 {
 public:
 
-	InputHandler()
-	: err{false}
-	, badInput{false}
-	{
+    InputHandler()
+    {
     }
 
-    const size_t getInput(size_t const max)
+    const size_t getInput(size_t const max) const
     {
+        bool goodInput = false;
         size_t input = -1;
-        badInput = true;
 
-        while (badInput)
+        while (!goodInput)
         {
             try {
                 std::cout << "\n== Enter your choice: ";
@@ -24,21 +22,22 @@ public:
                 {
                     if (input >= max || input < 0)
                     {
-                        err = true;
+                        goodInput = false;
                     }
-
-                    badInput = false;
-                    err = false;
+                    else
+                    {
+                        goodInput = true;
+                    }
                 }
                 else
                 {
-                    err = true;
+                    goodInput = false;
                 }
 
                 std::cin.clear();
                 std::cin.ignore(10000, '\n');
 
-                if (err)
+                if (!goodInput)
                 {
                     throw -1;
                 }
@@ -46,15 +45,9 @@ public:
             catch (...)
             {
                 std::cout << "      > Invalid input!";
-                badInput =  true;
             }
 
         }
-
         return input;
     }
-
-private:
-    bool err;
-    bool badInput;
 };

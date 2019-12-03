@@ -42,7 +42,7 @@ struct Conversation
         );
     }
 
-    void showDialogs()
+    void showDialogs() const
     {
         auto currentDialog = findDialog("Previous!");
 
@@ -68,5 +68,5 @@ struct Conversation
     }
 
 private:
-    InputHandler inp;
+    const InputHandler inp;
 };
