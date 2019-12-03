@@ -1,2 +1,2 @@
 # CppDialogs
- A simple implementation for a chain of dialogs (like in games)
+A simple C++ implementation for chains of dialogues (like in games)
