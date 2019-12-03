@@ -3,8 +3,6 @@
 
 struct Conversation
 {
-    std::vector<Dialog*> dialogs;
-
     Conversation()
     : dialogs{}
     , inp{}
@@ -68,5 +66,6 @@ struct Conversation
     }
 
 private:
+    std::vector<Dialog*> dialogs;
     const InputHandler inp;
 };
