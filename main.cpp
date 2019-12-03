@@ -70,9 +70,10 @@ struct Conversation
 
     const size_t getInput(size_t max) const
     {
-        size_t input = 0;
+        size_t input = -1;
+        bool badInput = true;
 
-        while (!input)
+        while (badInput)
         {
             try {
                 std::cout << "\n== Enter your choice: ";
@@ -80,10 +81,12 @@ struct Conversation
                 bool err = false;
                 if((std::cin >> input))
                 {
-                    if (input >= max || input <= 0)
+                    if (input >= max || input < 0)
                     {
                         err = true;
                     }
+
+                    badInput = false;
                 }
                 else
                 {
@@ -100,8 +103,8 @@ struct Conversation
             }
             catch (...)
             {
-                std::cout << "Invalid input!";
-                input = 0;
+                std::cout << "      > Invalid input!";
+                badInput =  true;
             }
 
         }
