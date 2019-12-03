@@ -8,10 +8,10 @@ public:
     {
     }
 
-    void start()
+    void start() const
     {
         convo.showDialogs();
     }
 private:
-    Conversation convo;
+    const Conversation convo;
 };

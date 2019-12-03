@@ -1,7 +1,7 @@
 #include <vector>
 
 struct Dialog;
-typedef std::vector<std::pair<const Dialog*, std::string>> dialog_options_t;
+typedef std::vector<std::pair<const Dialog*, const std::string>> dialog_options_t;
 
 struct Dialog
 {

@@ -10,7 +10,7 @@ struct Conversation
         createDialogs();
     }
 
-    const Dialog* findDialog(std::string text) const
+    const Dialog* findDialog(std::string const text) const
     {
         for (auto& dialog : dialogs)
         {
@@ -19,7 +19,8 @@ struct Conversation
                 return dialog;
             }
         }
-        return new Dialog("", dialog_options_t{});
+
+        return new Dialog("Dialog not found.", dialog_options_t{});
     }
 
     void createDialogs()
