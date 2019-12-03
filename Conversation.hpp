@@ -1,4 +1,5 @@
 #include "Dialog.hpp"
+#include "InputHandler.hpp"
 
 struct Conversation
 {
@@ -6,6 +7,7 @@ struct Conversation
 
     Conversation()
     : dialogs{}
+    , inp{}
     {
         createDialogs();
     }
@@ -40,7 +42,7 @@ struct Conversation
         );
     }
 
-    void showDialogs() const
+    void showDialogs()
     {
         auto currentDialog = findDialog("Previous!");
 
@@ -55,7 +57,7 @@ struct Conversation
                     std::cout << "\n" << (i) << ". " << currentDialog->choices.at(i).second;
                 }
 
-                size_t choice = getInput(currentDialog->choices.size());
+                size_t choice = inp.getInput(currentDialog->choices.size());
                 std::cout << "Your fucking choice is " <<  choice;
                 currentDialog = currentDialog->choices.at(choice).first;
 
@@ -65,48 +67,6 @@ struct Conversation
         }
     }
 
-    const size_t getInput(size_t max) const
-    {
-        size_t input = -1;
-        bool badInput = true;
-
-        while (badInput)
-        {
-            try {
-                std::cout << "\n== Enter your choice: ";
-
-                bool err = false;
-                if((std::cin >> input))
-                {
-                    if (input >= max || input < 0)
-                    {
-                        err = true;
-                    }
-
-                    badInput = false;
-                }
-                else
-                {
-                    err = true;
-                }
-
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
-
-                if (err)
-                {
-                    throw -1;
-                }
-            }
-            catch (...)
-            {
-                std::cout << "      > Invalid input!";
-                badInput =  true;
-            }
-
-        }
-
-        return input;
-    }
-
+private:
+    InputHandler inp;
 };
