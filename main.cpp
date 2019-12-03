@@ -42,14 +42,14 @@ struct Conversation
     void createDialogs()
     {
         dialogs.push_back(new Dialog("Root!", dialog_options_t{}));
-        dialogs.push_back(new Dialog("Trap!", dialog_options_t{{nullptr, "Your are trapped!"}}));
+        dialogs.push_back(new Dialog("You are trapped!", dialog_options_t{}));
         dialogs.push_back(
             new Dialog(
                 "Previous!",
                 dialog_options_t (
                     {
                         {findDialog("Root!"), "Go to root."},
-                        {findDialog("Trap!"), "Go to an adventure!"},
+                        {findDialog("You are trapped!"), "Go to an adventure!"},
                         {nullptr, "Dont go to root."}
                     }
                 )
@@ -65,14 +65,15 @@ struct Conversation
         {
             std::cout << "\n\n" << currentDialog->text << "\n";
 
-            if (currentDialog->choices.size())
+            if (currentDialog->choices.size() > 0)
             {
                 for (auto i = 0u; i < currentDialog->choices.size(); ++i)
                 {
-                    std::cout << "\n" << (i+1) << ". " << currentDialog->choices.at(i).second;
+                    std::cout << "\n" << (i) << ". " << currentDialog->choices.at(i).second;
                 }
 
-                auto choice = getInput();
+                size_t choice = getInput(currentDialog->choices.size());
+                std::cout << "Your fucking choice is " <<  choice;
                 currentDialog = currentDialog->choices.at(choice).first;
 
                 continue;
@@ -81,12 +82,43 @@ struct Conversation
         }
     }
 
-    const uint8_t getInput() const
+    const size_t getInput(size_t max) const
     {
-        uint8_t input = 0;
+        size_t input = 0;
 
-        std::cout << "\n== Enter your choice: ";
-        // std::cin >> input;
+        while (!input)
+        {
+            try {
+                std::cout << "\n== Enter your choice: ";
+
+                bool err = false;
+                if((std::cin >> input))
+                {
+                    if (input >= max || input <= 0)
+                    {
+                        err = true;
+                    }
+                }
+                else
+                {
+                    err = true;
+                }
+
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+
+                if (err)
+                {
+                    throw -1;
+                }
+            }
+            catch (...)
+            {
+                std::cout << "Invalid input!";
+                input = 0;
+            }
+
+        }
 
         return input;
     }
